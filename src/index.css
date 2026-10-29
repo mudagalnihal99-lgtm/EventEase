@@ -1,0 +1,64 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    @apply bg-ivory-100 font-sans text-charcoal antialiased;
+  }
+  h1,
+  h2,
+  h3 {
+    @apply font-serif text-charcoal;
+  }
+  h1 {
+    @apply text-3xl font-semibold tracking-tight;
+  }
+  h2 {
+    @apply text-xl font-semibold;
+  }
+  :focus-visible {
+    @apply outline-none ring-2 ring-ember ring-offset-2 ring-offset-ivory-100;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex min-h-[44px] items-center justify-center gap-2 rounded-md px-4 text-sm font-medium transition-colors disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  .btn-primary {
+    @apply btn bg-ember text-ivory-50 hover:bg-ember-dark;
+  }
+  .btn-secondary {
+    @apply btn border border-ivory-300 bg-ivory-50 text-charcoal hover:bg-ivory-200;
+  }
+  .btn-ghost {
+    @apply btn text-charcoal-500 hover:bg-ivory-200;
+  }
+  .btn-danger {
+    @apply btn border border-danger/40 text-danger hover:bg-danger/10;
+  }
+
+  .field-label {
+    @apply mb-1 block text-sm font-medium text-charcoal-700;
+  }
+  .field-input {
+    @apply min-h-[44px] w-full rounded-md border border-ivory-300 bg-ivory-50 px-3 text-base text-charcoal placeholder:text-charcoal-400 focus:border-ember;
+  }
+  .field-error {
+    @apply mt-1 text-sm text-danger;
+  }
+
+  .eyebrow {
+    @apply text-xs font-semibold uppercase tracking-wider text-charcoal-400;
+  }
+  .panel {
+    @apply rounded-lg border border-ivory-300 bg-ivory-50;
+  }
+  .badge {
+    @apply inline-flex items-center rounded-full border px-2 py-0.5 text-xs font-medium;
+  }
+}
