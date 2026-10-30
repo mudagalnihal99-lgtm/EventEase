@@ -5,7 +5,7 @@ import {
   Bell,
   CalendarDays,
   Check,
-  CheckCircle2,
+  
   ClipboardList,
   Clock3,
   LayoutDashboard,
@@ -17,7 +17,9 @@ import {
   Wallet,
   X,
   Trash2,
-  CircleDollarSign
+  CircleDollarSign,
+  LogOut,
+  LoaderCircle
 } from "lucide-react";
 
 type Page = "Overview" | "Events" | "Tasks" | "Expenses" | "Team";
@@ -134,7 +136,17 @@ const navigation = [
   { name: "Team" as Page, icon: Users }
 ];
 
-export default function App() {
+export default function App({
+  userEmail,
+  authError,
+  isSigningOut,
+  onSignOut
+}: {
+  userEmail: string;
+  authError: string;
+  isSigningOut: boolean;
+  onSignOut: () => void;
+}) {
   const [page, setPage] = useState<Page>("Overview");
 
   const [events, setEvents] = useState(() =>
@@ -183,6 +195,7 @@ export default function App() {
   );
 
   const completed = tasks.filter(t => t.done).length;
+  const userInitial = userEmail.trim().charAt(0).toUpperCase() || "U";
 
   function notify(message: string) {
     setNotice(message);
@@ -388,13 +401,25 @@ export default function App() {
           </div>
 
           <div className="mt-5 flex items-center gap-3 border-t border-white/10 pt-5">
-            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#E8D9C8] text-sm font-semibold text-[#6C4935]">
-              N
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#E8D9C8] text-sm font-semibold text-[#6C4935]">
+              {userInitial}
             </div>
-            <div>
-              <p className="text-sm">Workspace Admin</p>
-              <p className="text-[11px] text-white/40">Department team</p>
+            <div className="min-w-0 flex-1">
+              <p className="truncate text-sm">{userEmail || "Signed-in account"}</p>
+              <p className="text-[11px] text-white/40">Signed in</p>
             </div>
+            <button
+              type="button"
+              onClick={onSignOut}
+              disabled={isSigningOut}
+              aria-label="Log out"
+              title="Log out"
+              className="rounded-lg p-2 text-white/60 hover:bg-white/10 hover:text-white disabled:opacity-50"
+            >
+              {isSigningOut
+                ? <LoaderCircle className="animate-spin" size={17} />
+                : <LogOut size={17} />}
+            </button>
           </div>
         </div>
       </aside>
@@ -488,10 +513,16 @@ export default function App() {
               </button>
 
               <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#E8D9C8] font-semibold text-[#6C4935]">
-                N
+                {userInitial}
               </div>
             </div>
           </header>
+
+          {authError && (
+            <p className="mx-5 mt-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800 sm:mx-8 lg:mx-10" role="alert">
+              {authError}
+            </p>
+          )}
 
           <div className="mx-auto max-w-[1500px] px-5 py-8 sm:px-8 lg:px-10">
 
