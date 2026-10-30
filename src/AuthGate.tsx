@@ -1,3 +1,4 @@
+
 import { useEffect, useState, type FormEvent } from "react";
 import { CalendarDays, LoaderCircle, LockKeyhole, Mail } from "lucide-react";
 import type { Session } from "@supabase/supabase-js";
@@ -57,8 +58,14 @@ export default function AuthGate() {
 
     try {
       const result = mode === "signup"
-        ? await supabase.auth.signUp({ email, password })
-        : await supabase.auth.signInWithPassword({ email, password });
+        ? await supabase.auth.signUp({
+              email,
+                    password,
+                          options: {
+                                  emailRedirectTo: "https://event-ease-6zwb.vercel.app",
+                                        },
+                                            })
+                                              : await supabase.auth.signInWithPassword({ email, password });
 
       if (result.error) throw result.error;
       if (mode === "signup" && !result.data.session) {
